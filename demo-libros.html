@@ -1,65 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Compra de Libros</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <title>App Libros - Pruebas rápidas</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    section { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; }
+    input, button { padding: .5rem; margin: .25rem 0; }
+    code { background: #f6f8fa; padding: .25rem .5rem; border-radius: 4px; display: block; white-space: pre-wrap; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="bg-primary text-white text-center py-5">
-    <h1>App Libros</h1>
-    <p class="lead">Registro/Login con JWT y compra de libros con control de stock</p>
-  </header>
+  <h1>App Libros: API REST + JWT</h1>
 
-  <!-- Descripción -->
-  <section class="container my-5">
-    <h2>Descripción</h2>
-    <p>
-      Esta aplicación permite a los usuarios registrarse e iniciar sesión para comprar libros.
-      Solo usuarios autenticados pueden realizar compras, y el sistema controla la disponibilidad
-      de stock en tiempo real.
-    </p>
-    <ul>
-      <li><strong>Usuarios:</strong> Registro e inicio de sesión con JWT</li>
-      <li><strong>Libros:</strong> Modelo con nombre y cantidad disponible</li>
-      <li><strong>Compra:</strong> Ruta protegida <code>/libros/:id/comprar</code></li>
-    </ul>
-  </section>
-
-  <!-- Capturas -->
-  <section class="container my-5">
-    <h2>Capturas de Pantalla</h2>
+  <!-- Registro -->
+  <section>
+    <h2>Registro</h2>
     <div class="row">
-      <div class="col-md-6 mb-3">
-        <div class="card">
-          <img src="public/img/login.png" class="card-img-top" alt="Vista de Login">
-          <div class="card-body text-center">
-            <p>Formulario de inicio de sesión</p>
-          </div>
-        </div>
+      <div>
+        <label>Username</label><br />
+        <input id="reg_username" />
       </div>
-      <div class="col-md-6 mb-3">
-        <div class="card">
-          <img src="public/img/libros.png" class="card-img-top" alt="Listado de Libros">
-          <div class="card-body text-center">
-            <p>Listado de libros disponibles</p>
-          </div>
-        </div>
+      <div>
+        <label>Password</label><br />
+        <input id="reg_password" type="password" />
       </div>
     </div>
+    <button onclick="register()">Registrar</button>
+    <code id="reg_result"></code>
   </section>
 
-  <!-- Enlaces -->
-  <section class="container text-center my-5">
-    <a href="https://github.com/Exemunoza/app-libros" class="btn btn-primary" target="_blank">Ver Código en GitHub</a>
-    <a href="https://exemunoza.github.io/portafolio_EM/" class="btn btn-secondary">Volver al Portafolio</a>
+  <!-- Login -->
+  <section>
+    <h2>Login</h2>
+    <div class="row">
+      <div>
+        <label>Username</label><br />
+        <input id="login_username" />
+      </div>
+      <div>
+        <label>Password</label><br />
+        <input id="login_password" type="password" />
+      </div>
+    </div>
+    <button onclick="login()">Login</button>
+    <code id="login_result"></code>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 Portafolio Exequiel Muñoz</p>
-  </footer>
+  <!-- Listado de libros -->
+  <section>
+    <h2>Libros disponibles</h2>
+    <button onclick="getBooks()">GET /libros</button>
+    <code id="books_result"></code>
+  </section>
+
+  <!-- Comprar libro -->
+  <section>
+    <h2>Comprar libro</h2>
+    <div class="row">
+      <div>
+        <label>ID libro</label><br />
+        <input id="book_id" />
+      </div>
+      <div>
+        <label>Cantidad</label><br />
+        <input id="book_qty" type="number" />
+      </div>
+    </div>
+    <button onclick="buyBook()">POST /libros/:id/comprar</button>
+    <code id="buy_result"></code>
+  </section>
+
+  <script>
+    const base = 'http://localhost:3000'; // Cambia si despliegas en otro host
+    let accessToken = '';
+
+    async function register() {
+      const body = {
+        username: document.getElementById('reg_username').value,
+        password: document.getElementById('reg_password').value
+      };
+      const res = await fetch(`${base}/auth/register`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      document.getElementById('reg_result').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function login() {
+      const body = {
+        username: document.getElementById('login_username').value,
+        password: document.getElementById('login_password').value
+      };
+      const res = await fetch(`${base}/auth/login`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      document.getElementById('login_result').textContent = JSON.stringify(data, null, 2);
+      if (res.ok) {
+        accessToken = data.token;
+      }
+    }
+
+    async function getBooks() {
+      const res = await fetch(`${base}/libros`);
+      const data = await res.json();
+      document.getElementById('books_result').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function buyBook() {
+      const id = document.getElementById('book_id').value;
+      const qty = document.getElementById('book_qty').value;
+      const body = { cantidad: Number(qty) };
+      const res = await fetch(`${base}/libros/${id}/comprar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      document.getElementById('buy_result').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
 </body>
 </html>
