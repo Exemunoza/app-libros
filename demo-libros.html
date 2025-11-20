@@ -48,6 +48,25 @@
     <code id="login_result"></code>
   </section>
 
+  <!-- Info Usuario -->
+  <section>
+    <h2>Información Usuario</h2>
+    <div class="row">
+      <div>
+        <label>ID</label><br />
+        <input id="user_id" readonly />
+      </div>
+      <div>
+        <label>Username</label><br />
+        <input id="user_name" readonly />
+      </div>
+      <div style="flex:1">
+        <label>Token</label><br />
+        <textarea id="user_token" rows="3" style="width:100%" readonly></textarea>
+      </div>
+    </div>
+  </section>
+
   <!-- Listado de libros -->
   <section>
     <h2>Libros disponibles</h2>
@@ -76,46 +95,67 @@
     const base = 'http://localhost:3000'; // Cambia si despliegas en otro host
     let accessToken = '';
 
+    // Registro de usuario
     async function register() {
       const body = {
         username: document.getElementById('reg_username').value,
         password: document.getElementById('reg_password').value
       };
       const res = await fetch(`${base}/auth/register`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
       });
       const data = await res.json();
       document.getElementById('reg_result').textContent = JSON.stringify(data, null, 2);
+
+      if (res.ok) {
+        alert(`Usuario ${data.username} registrado con éxito (ID: ${data.id})`);
+        document.getElementById('login_username').value = data.username;
+      }
     }
 
+    // Login de usuario
     async function login() {
       const body = {
         username: document.getElementById('login_username').value,
         password: document.getElementById('login_password').value
       };
       const res = await fetch(`${base}/auth/login`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
       });
       const data = await res.json();
       document.getElementById('login_result').textContent = JSON.stringify(data, null, 2);
+
       if (res.ok) {
         accessToken = data.token;
+        document.getElementById('user_id').value = data.id || '';
+        document.getElementById('user_name').value = data.username || '';
+        document.getElementById('user_token').value = data.token;
+        alert(`Login correcto para ${data.username}, token guardado`);
       }
     }
 
+    // Listar libros
     async function getBooks() {
       const res = await fetch(`${base}/libros`);
       const data = await res.json();
       document.getElementById('books_result').textContent = JSON.stringify(data, null, 2);
     }
 
+    // Comprar libro (requiere JWT)
     async function buyBook() {
       const id = document.getElementById('book_id').value;
       const qty = document.getElementById('book_qty').value;
       const body = { cantidad: Number(qty) };
       const res = await fetch(`${base}/libros/${id}/comprar`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
         body: JSON.stringify(body)
       });
       const data = await res.json();

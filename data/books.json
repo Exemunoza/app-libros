@@ -1,5 +1,17 @@
 [
-  { "id": "1", "nombre": "Clean Code", "cantidad_disponible": 5 },
-  { "id": "2", "nombre": "You Don't Know JS", "cantidad_disponible": 3 },
-  { "id": "3", "nombre": "El Programador Pragmático", "cantidad_disponible": 4 }
+  {
+    "id": "1",
+    "nombre": "Clean Code",
+    "cantidad_disponible": 3
+  },
+  {
+    "id": "2",
+    "nombre": "You Don't Know JS",
+    "cantidad_disponible": 3
+  },
+  {
+    "id": "3",
+    "nombre": "El Programador Pragmático",
+    "cantidad_disponible": 4
+  }
 ]
