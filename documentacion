@@ -1,0 +1,80 @@
+# 📚 App Libros
+
+Sistema de compra de libros con registro/login y protección mediante **JWT**.  
+Incluye ejemplos de uso, galería de imágenes y despliegue en GitHub Pages.
+
+---
+
+## 🚀 Características principales
+- Registro y login de usuarios con validación segura.
+- Autenticación mediante **JSON Web Tokens (JWT)**.
+- Compra de libros con control de stock.
+- Arquitectura modular con **Express.js**.
+- Interfaz responsiva con **Bootstrap 5**.
+- Galería de imágenes de respaldo para mostrar el funcionamiento.
+
+---
+
+## 📂 Estructura del proyecto
+app-libros/ ├── controllers/ # Lógica de negocio (controladores) ├── middleware/ # Middlewares (validación, seguridad) ├── models/ # Modelos de datos ├── routes/ # Rutas de la API y vistas ├── public/ # Archivos estáticos (CSS, JS, imágenes) │ └── img/ # Capturas de respaldo ├── index.html # Página principal ├── demo-libros.html # Demo de compra de libros ├── demo-imagenes.html # Galería de imágenes ├── server.js # Servidor Express ├── package.json # Dependencias y scripts └── README.md # Documentación del proyecto
+
+Código
+
+---
+
+## ⚙️ Instalación y uso
+
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/Exemunoza/app-libros.git
+   cd app-libros
+Instalar dependencias:
+
+bash
+npm install
+Configurar variables de entorno:
+
+Crear archivo .env con:
+
+Código
+PORT=3000
+JWT_SECRET=tu_clave_secreta
+Ejecutar el servidor:
+
+bash
+npm start
+Luego abrir en el navegador:
+
+Código
+http://localhost:3000
+🌐 Demo en GitHub Pages
+El proyecto también está disponible en GitHub Pages:
+
+Ver Proyecto
+
+Galería de Imágenes
+
+Demo de Libros
+
+🖼️ Capturas
+Ejemplos de funcionamiento:
+
+Login exitoso con JWT
+
+Registro de nuevo usuario
+
+Compra de libro con control de stock
+
+(Ver galería completa en demo-imagenes.html)
+
+🛠️ Tecnologías utilizadas
+Node.js + Express.js
+
+Bootstrap 5
+
+JWT (jsonwebtoken)
+
+GitHub Pages para despliegue estático
+
+👨‍💻 Autor
+Exequiel Muñoz Portafolio: https://exemunoza.github.io/portafolio_EM/
