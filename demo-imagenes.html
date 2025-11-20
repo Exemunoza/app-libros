@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body { background: #f8f9fa; }
-    .gallery-img { border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .gallery-img { border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); cursor: pointer; }
     .caption { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
   </style>
 </head>
@@ -21,24 +21,58 @@
   <!-- Galería -->
   <main class="container my-5">
     <div class="row g-4">
+      <!-- Imagen 1 -->
       <div class="col-md-4 text-center">
-        <img src="public/img/login-exitoso.jpg" alt="Login exitoso" class="img-fluid gallery-img" />
+        <img src="public/img/login-exitoso.jpg" alt="Login exitoso" 
+             class="img-fluid gallery-img" data-bs-toggle="modal" data-bs-target="#imgModal1" />
         <div class="caption">Login exitoso con JWT</div>
       </div>
+      <!-- Imagen 2 -->
       <div class="col-md-4 text-center">
-        <img src="public/img/registro-usuario.jpg" alt="Registro de usuario" class="img-fluid gallery-img" />
+        <img src="public/img/registro-usuario.jpg" alt="Registro de usuario" 
+             class="img-fluid gallery-img" data-bs-toggle="modal" data-bs-target="#imgModal2" />
         <div class="caption">Registro de nuevo usuario</div>
       </div>
+      <!-- Imagen 3 -->
       <div class="col-md-4 text-center">
-        <img src="public/img/compra-libro.jpg" alt="Compra de libro" class="img-fluid gallery-img" />
+        <img src="public/img/compra-libro.jpg" alt="Compra de libro" 
+             class="img-fluid gallery-img" data-bs-toggle="modal" data-bs-target="#imgModal3" />
         <div class="caption">Compra de libro con control de stock</div>
       </div>
     </div>
   </main>
 
+  <!-- Modales -->
+  <div class="modal fade" id="imgModal1" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <img src="public/img/login-exitoso.jpg" class="img-fluid" alt="Login exitoso en grande">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="imgModal2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <img src="public/img/registro-usuario.jpg" class="img-fluid" alt="Registro de usuario en grande">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="imgModal3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <img src="public/img/compra-libro.jpg" class="img-fluid" alt="Compra de libro en grande">
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-light text-center py-3">
     <small>&copy; 2025 Portafolio Exequiel Muñoz • <a href="./index.html">Volver al inicio</a></small>
   </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
